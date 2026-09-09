@@ -61,6 +61,26 @@ test('hero frame improves readability without changing the release version', () 
   assert.doesNotMatch(home, /v\. 0\.3/);
 });
 
+test('requested typography and image scale is applied exactly', () => {
+  const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
+  assert.doesNotMatch(css, /font-size: 36px/);
+  assert.match(css, /\.home-hero h1 \{[^}]*font-size: 24px;/);
+  assert.match(css, /\.section-title h2, \.section-title strong \{[^}]*font-size: 20px;/);
+  assert.match(css, /\.hero-frame > p \{[^}]*font-size: 18px;/);
+  assert.match(css, /\.project-description \{[^}]*font-size: 18px;/);
+  assert.match(css, /\.case-content h1 \{[^}]*font-size: 24px;/);
+  assert.match(css, /\.case-content h2 \{[^}]*font-size: 20px;/);
+  assert.match(css, /\.case-content p, \.case-content li \{[^}]*font-size: 18px;/);
+  assert.match(css, /\.home-hero__portrait \{[^}]*width: 160px; height: 160px;/);
+  assert.match(css, /\.project-icon \{[^}]*flex: 0 0 85px; width: 85px; height: 85px;/);
+  for (const page of pages) {
+    const html = fs.readFileSync(path.join(root, page), 'utf8');
+    for (const [image] of html.matchAll(/<img class="project-icon"[^>]*>/g)) {
+      assert.match(image, /width="85" height="85"/);
+    }
+  }
+});
+
 test('all CSS dependencies are local and present', () => {
   const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
   for (const [, url] of css.matchAll(/url\("([^"]+)"\)/g)) {
