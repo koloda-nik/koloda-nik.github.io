@@ -1,7 +1,8 @@
 .agents/
 .codex/
+assets/figma/
+assets/images/
 node_modules/
 *.log
 .DS_Store
 Thumbs.db
-

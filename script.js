@@ -45,8 +45,11 @@
     pointer.y += (pointer.targetY - pointer.y) * ease;
     pointer.strength += ((pointer.active ? 1 : 0) - pointer.strength) * ease;
     const animated = !reducedMotion.matches;
-    const introProgress = (time - startedAt) / 2200;
-    const intro = animated && introProgress < 1 ? Math.sin(Math.PI * Math.max(0, introProgress)) * .48 : 0;
+    const introProgress = (time - startedAt) / 2800;
+    const introPulse = animated && introProgress < 1
+      ? Math.sin(Math.PI * Math.max(0, introProgress)) * .55
+      : 0;
+    const pulse = .32 + .68 * (.5 + .5 * Math.sin(time / 850));
     context.clearRect(0, 0, width, height);
 
     for (const dot of dots) {
@@ -54,12 +57,14 @@
       if (animated) {
         const dx = dot.x - pointer.x;
         const dy = dot.y - pointer.y;
-        const envelope = Math.exp(-(dx * dx + dy * dy) / (2 * 155 * 155));
-        const wave = .55 + .45 * Math.sin((dx + dy * .65) / 65 - time / 680);
-        energy = envelope * wave * pointer.strength;
-        const introX = width * (.25 + introProgress * .5);
-        const introY = height * (.15 + introProgress * .38);
-        energy = Math.max(energy, intro * Math.exp(-((dot.x - introX) ** 2 + (dot.y - introY) ** 2) / 80000));
+        const distanceSquared = dx * dx + dy * dy;
+        const circularEnvelope = Math.exp(-distanceSquared / (2 * 165 * 165));
+        energy = circularEnvelope * pulse * pointer.strength;
+        const introX = width / 2;
+        const introY = Math.min(height * .4, 360);
+        const introDistanceSquared = (dot.x - introX) ** 2 + (dot.y - introY) ** 2;
+        const introCircle = Math.exp(-introDistanceSquared / (2 * 180 * 180));
+        energy = Math.max(energy, introPulse * introCircle);
       }
       context.beginPath();
       context.arc(dot.x, dot.y, .8 + energy * 2.5, 0, Math.PI * 2);

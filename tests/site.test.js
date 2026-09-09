@@ -11,6 +11,8 @@ for (const page of pages) {
     const html = fs.readFileSync(path.join(root, page), 'utf8');
     assert.match(html, /lang="ru"/);
     assert.match(html, /name="viewport"/);
+    assert.match(html, /rel="icon" type="image\/png" href="(?:\.\.\/|\.\/)pictures\/profile\.png"/);
+    assert.match(html, /<footer class="site-footer"><span>v\. 0\.2<\/span><span>© 2026<\/span><\/footer>/);
     assert.doesNotMatch(html, /cursor-glow|href="#"|href="mailto:"/);
     for (const [, url] of html.matchAll(/(?:src|href)="([^"#]+)"/g)) {
       if (/^(?:https?:|mailto:)/.test(url)) continue;
@@ -40,11 +42,26 @@ test('contact links and requested HR illustration are preserved', () => {
   assert.match(opportunity, /Ситуация[\s\S]*?svmos6-in-page.png/);
 });
 
+test('browser titles match the portfolio naming', () => {
+  assert.match(fs.readFileSync(path.join(root, 'index.html'), 'utf8'), /<title>Kolodeznev\.Portfolio<\/title>/);
+  assert.match(fs.readFileSync(path.join(root, 'cases/opportunity.html'), 'utf8'), /<title>Среда возможностей<\/title>/);
+  assert.match(fs.readFileSync(path.join(root, 'cases/neural.html'), 'utf8'), /<title>Нейросети<\/title>/);
+  assert.match(fs.readFileSync(path.join(root, 'cases/museum.html'), 'utf8'), /<title>Музей МХАТ<\/title>/);
+});
+
 test('all CSS dependencies are local and present', () => {
   const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
   for (const [, url] of css.matchAll(/url\("([^"]+)"\)/g)) {
     assert.ok(fs.existsSync(path.resolve(root, url)), `missing ${url}`);
   }
   assert.doesNotMatch(css, /cursor:\s*none/);
+  assert.doesNotMatch(css, /preview\):hover[^}]*scale/);
   assert.match(css, /prefers-reduced-motion/);
+});
+
+test('dot animation uses a circular pulse without directional waves', () => {
+  const script = fs.readFileSync(path.join(root, 'script.js'), 'utf8');
+  assert.match(script, /circularEnvelope/);
+  assert.match(script, /const pulse/);
+  assert.doesNotMatch(script, /const wave/);
 });

@@ -36,8 +36,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid #526b83; outline-offs
 .home-case { display: flex; flex-direction: column; gap: 32px; margin-top: 56px; padding-bottom: 32px; border-bottom: 1px solid var(--line); }
 .home-case:first-of-type { margin-top: 32px; padding-bottom: 0; border-bottom: 0; }
 .opportunity-preview, .neural-preview, .museum-preview { display: block; width: 100%; aspect-ratio: 850 / 550; border-radius: 20px; overflow: hidden; text-decoration: none; background: transparent; }
-:is(.opportunity-preview, .neural-preview, .museum-preview) > img { display: block; width: 100%; height: auto; background: transparent; transition: transform .45s cubic-bezier(.2,.7,.3,1); }
-@media (hover: hover) { :is(.opportunity-preview, .neural-preview, .museum-preview):hover > img { transform: scale(1.015); } }
+:is(.opportunity-preview, .neural-preview, .museum-preview) > img { display: block; width: 100%; height: auto; background: transparent; }
 .project-summary { display: flex; flex-direction: column; align-items: flex-start; gap: 32px; }
 .project-heading { display: flex; align-items: center; gap: 20px; min-width: 0; }
 .project-heading > div { min-width: 0; }
@@ -66,6 +65,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid #526b83; outline-offs
 .case-links h2 { font-size: 36px; line-height: 44px; }
 .case-link-buttons { display: flex; flex-wrap: wrap; gap: 16px; }
 .account-card-image { display: block; width: 100%; height: auto; aspect-ratio: 1275 / 321; border-radius: 20px; }
+.site-footer { position: relative; z-index: 1; display: flex; justify-content: space-between; width: var(--content); max-width: calc(100% - 32px); margin: 0 auto; padding: 24px 0 40px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; line-height: 20px; }
 
 /* Local Tabler Icons. */
 .ui-icon { display: inline-block; flex: 0 0 20px; width: 20px; height: 20px; background: currentColor; mask: var(--icon) center / contain no-repeat; }
