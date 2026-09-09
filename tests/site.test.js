@@ -49,6 +49,17 @@ test('browser titles match the portfolio naming', () => {
   assert.match(fs.readFileSync(path.join(root, 'cases/museum.html'), 'utf8'), /<title>Музей МХАТ<\/title>/);
 });
 
+test('hero frame improves readability without changing the release version', () => {
+  const home = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
+  assert.match(home, /<div class="hero-frame">/);
+  assert.match(css, /\.hero-frame \{[^}]*width: 624px;[^}]*padding: 32px;[^}]*border-radius: 24px;/);
+  assert.match(css, /\.hero-frame:hover[^}]*background: #fff;[^}]*box-shadow:/);
+  assert.match(css, /\.hero-frame:hover[^}]*\.contact-links a[^}]*background: var\(--ink\); color: #fff;/);
+  assert.match(home, /<span>v\. 0\.2<\/span>/);
+  assert.doesNotMatch(home, /v\. 0\.3/);
+});
+
 test('all CSS dependencies are local and present', () => {
   const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
   for (const [, url] of css.matchAll(/url\("([^"]+)"\)/g)) {

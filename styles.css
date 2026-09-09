@@ -21,16 +21,17 @@ a:focus-visible, button:focus-visible { outline: 2px solid #526b83; outline-offs
 .dot-grid canvas { display: block; width: 100%; height: 100%; }
 .home-hero, .home-main, .case-page { position: relative; z-index: 1; }
 .home-hero, .case-hero, .case-intro { animation: page-enter .65s cubic-bezier(.2,.7,.3,1) both; }
-.home-hero { display: flex; flex-direction: column; align-items: center; padding-top: 170px; text-align: center; }
+.home-hero { display: flex; justify-content: center; padding-top: 138px; }
+.hero-frame { display: flex; flex-direction: column; align-items: center; width: 624px; max-width: calc(100% - 32px); padding: 32px; border-radius: 24px; text-align: center; transition: background-color .35s ease, box-shadow .35s ease; }
 .home-hero__portrait { width: 190px; height: 190px; object-fit: cover; border-radius: 20px; }
-.home-hero h1 { margin: 24px 16px 0; font-size: 36px; line-height: 44px; }
-.home-hero > p { width: 560px; max-width: calc(100% - 32px); margin: 16px 0 0; font-size: 20px; line-height: 1.35; }
+.home-hero h1 { margin: 24px 0 0; font-size: 36px; line-height: 44px; }
+.hero-frame > p { width: 560px; max-width: 100%; margin: 16px 0 0; font-size: 20px; line-height: 1.35; }
 .contact-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 24px; margin-top: 24px; }
 .contact-links a, .contact-links button, .button-link, .back-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 16px; border: 0; border-radius: 8px; background: #fff; color: var(--ink); font: inherit; font-size: 18px; line-height: 20px; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease; }
 :is(.contact-links a, a.button-link, .back-link):hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(15,25,28,.07); }
 :is(.contact-links a, a.button-link, .back-link):active { transform: translateY(0) scale(.98); }
 .contact-links button[aria-disabled="true"] { color: #7b8386; cursor: default; }
-.home-main { width: var(--content); max-width: calc(100% - 32px); margin: 120px auto 160px; }
+.home-main { width: var(--content); max-width: calc(100% - 32px); margin: 88px auto 160px; }
 .section-title { display: flex; justify-content: space-between; align-items: center; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
 .section-title h2, .section-title strong { margin: 0; font-size: 24px; line-height: 29px; }
 .home-case { display: flex; flex-direction: column; gap: 32px; margin-top: 56px; padding-bottom: 32px; border-bottom: 1px solid var(--line); }
@@ -85,23 +86,34 @@ a.button-link:hover .icon-arrow-right { transform: translateX(3px); }
 .reveal-visible { opacity: 1; transform: none; transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.3,1); }
 @keyframes page-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
+@media (hover: hover) and (pointer: fine) {
+  .hero-frame:hover, .hero-frame:focus-within { background: #fff; box-shadow: 0 20px 54px rgba(15,25,28,.11); }
+  :is(.hero-frame:hover, .hero-frame:focus-within) :is(.contact-links a, .contact-links button) { background: var(--ink); color: #fff; }
+  :is(.hero-frame:hover, .hero-frame:focus-within) .contact-links button[aria-disabled="true"] { color: rgba(255,255,255,.58); }
+}
+@media (hover: none) {
+  .hero-frame { background: #fff; box-shadow: 0 14px 38px rgba(15,25,28,.08); }
+  .hero-frame :is(.contact-links a, .contact-links button) { background: var(--ink); color: #fff; }
+  .hero-frame .contact-links button[aria-disabled="true"] { color: rgba(255,255,255,.58); }
+}
+
 @media (max-width: 900px) {
-  .home-hero { padding-top: 96px; }
-  .home-main { margin-top: 88px; margin-bottom: 100px; }
+  .home-hero { padding-top: 64px; }
+  .home-main { margin-top: 56px; margin-bottom: 100px; }
   .project-heading p { font-size: 20px; line-height: 27px; }
   .case-page { padding-top: 88px; }
   .back-link { top: 12px; left: 12px; }
 }
 @media (max-width: 600px) {
   .dot-grid { height: 680px; }
-  .home-hero { padding-top: 72px; }
+  .home-hero { padding-top: 40px; }
   .home-hero__portrait { width: 150px; height: 150px; border-radius: 16px; }
   .home-hero h1 { font-size: 28px; line-height: 35px; }
-  .home-hero > p { max-width: calc(100% - 40px); font-size: 17px; }
+  .hero-frame > p { font-size: 17px; }
   .contact-links { gap: 8px; }
   .contact-links a, .contact-links button, .button-link { padding: 12px; font-size: 14px; }
   .contact-links .ui-icon { flex-basis: 18px; width: 18px; height: 18px; }
-  .home-main { margin-top: 72px; margin-bottom: 80px; }
+  .home-main { margin-top: 40px; margin-bottom: 80px; }
   .section-title h2, .section-title strong { font-size: 24px; }
   .home-case { margin-top: 40px; gap: 24px; }
   .project-heading { gap: 14px; align-items: flex-start; }
