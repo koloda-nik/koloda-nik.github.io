@@ -16,7 +16,8 @@ for (const page of pages) {
     assert.doesNotMatch(html, /cursor-glow|href="#"|href="mailto:"/);
     for (const [, url] of html.matchAll(/(?:src|href)="([^"#]+)"/g)) {
       if (/^(?:https?:|mailto:)/.test(url)) continue;
-      assert.ok(fs.existsSync(path.resolve(root, path.dirname(page), url)), `${page}: missing ${url}`);
+      const localPath = url.split('?')[0];
+      assert.ok(fs.existsSync(path.resolve(root, path.dirname(page), localPath)), `${page}: missing ${url}`);
     }
     for (const [img] of html.matchAll(/<img\b[^>]*>/g)) {
       assert.match(img, /alt="[^"]+"/);
